@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [],
+  imports: [
+	MatSidenavModule
+  ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'
 })

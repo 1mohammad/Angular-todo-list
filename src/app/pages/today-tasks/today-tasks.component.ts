@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TaskListComponent } from '@components/task-list/task-list.component';
+import { TaskHttpService } from '@services/task-http.service';
 
 @Component({
   selector: 'app-today-tasks',
@@ -11,5 +13,5 @@ import { TaskListComponent } from '@components/task-list/task-list.component';
   styleUrl: './today-tasks.component.scss'
 })
 export class TodayTasksComponent {
-
+	mainList = toSignal(inject(TaskHttpService).getMainTasks());
 }

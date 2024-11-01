@@ -12,6 +12,7 @@
             	[routerLink]="item.routerLink"
 				routerLinkActive="mdc-list-item--activated"
 				class="mb-1 last:mb-0"
+				(click)="closeSidenav.emit()"
         	>
             	<mat-icon matListItemIcon>
 					{{ item.icon }}

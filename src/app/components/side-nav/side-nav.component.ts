@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -24,6 +24,7 @@ interface menuItems {
   styleUrl: './side-nav.component.scss'
 })
 export class SideNavComponent {
+	@Output() closeSidenav = new EventEmitter<void>();
 	menuItems: menuItems[] = [
 		{
 			icon: 'home',

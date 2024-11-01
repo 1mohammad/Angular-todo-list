@@ -4,3 +4,8 @@ export interface ListModel {
 	isMain: boolean;
 	date: Date;
 }
+
+export interface ListDialogData {
+	title:string,
+	date:Date
+}

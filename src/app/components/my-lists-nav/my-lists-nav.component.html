@@ -4,7 +4,7 @@
 	<div mat-subheader>
 		My lists
 	</div>
-	<mat-list-item class="add-new-list border border-dashed border-rose">
+	<mat-list-item (click)="openDialog()" class="add-new-list border border-dashed border-rose mb-2">
 		<mat-icon
 			matListItemIcon
 		>
@@ -14,4 +14,11 @@
 			Add new list
 		</div>
 	</mat-list-item>
+	@for (item of myLists(); track item._id) {
+		<mat-list-item class="mb-2 last:mb-0">
+			<div matListItemTitle>
+				{{ item.title }}
+			</div>
+		</mat-list-item>
+	}
 </div>

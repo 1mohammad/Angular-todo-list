@@ -15,10 +15,36 @@
 		</div>
 	</mat-list-item>
 	@for (item of myLists(); track item._id) {
-		<mat-list-item class="mb-2 last:mb-0">
+		<mat-list-item 
+			disableRipple
+			class="mb-2 last:mb-0 group">
 			<div matListItemTitle>
 				{{ item.title }}
 			</div>
+			<button 
+				mat-icon-button 
+				matListItemMeta 
+				[matMenuTriggerFor]="menu"
+				class="transition-all opacity-0 group-hover:opacity-100">
+				<mat-icon>more_vert</mat-icon>
+			</button>
 		</mat-list-item>
 	}
 </div>
+
+<mat-menu #menu="matMenu">
+	<button mat-menu-item>
+		<mat-icon>
+			edit
+		</mat-icon>
+		Edit
+	</button>
+	<button mat-menu-item class="delete-button">
+		<mat-icon>
+			delete_outline
+		</mat-icon>
+		<span>
+			Delete
+		</span>
+	</button>
+</mat-menu>

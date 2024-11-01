@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { AddEditListDialogComponent } from '@components/add-edit-list-dialog/add-edit-list-dialog.component';
 import { ListModel } from '@models/list.model';
 import { ListHttpService } from '@services/list-http.service';
@@ -19,7 +20,8 @@ import { ListHttpService } from '@services/list-http.service';
 	MatIconModule,
 	MatFormFieldModule,
 	MatInputModule,
-	FormsModule
+	FormsModule,
+	MatMenuModule
   ],
   templateUrl: './my-lists-nav.component.html',
   styleUrl: './my-lists-nav.component.scss'

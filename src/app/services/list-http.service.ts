@@ -18,6 +18,10 @@ export class ListHttpService {
 	);
   }
 
+  getListById(id:string): Observable<ListModel> {
+	return this.http.get<ListModel>(`${environment.baseApi}lists/${id}`)
+  }
+
   updateList(id:string,title:string, date:Date): Observable<ListModel> {
 	const list = {
 		title,

@@ -16,6 +16,10 @@ export const routes: Routes = [
 		loadComponent: () => import('./pages/today-tasks/today-tasks.component').then(c => c.TodayTasksComponent)
 	},
 	{
+		path: `${ROUTES.MY_LIST}/:id`,
+		loadComponent: () => import('./pages/my-list/my-list.component').then(c => c.MyListComponent)
+	},
+	{
 		path: "**",
 		redirectTo: ROUTES.HOME
 	}

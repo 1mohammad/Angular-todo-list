@@ -11,6 +11,10 @@ export class ListHttpService {
 
   constructor(private http: HttpClient) { }
 
+  getMainList(): Observable<ListModel> {
+	return this.http.get<ListModel>(`${environment.baseApi}mainList`);
+  }
+  
   getAllLists(): Observable<ListModel[]> {
 	return this.http.get<ListModel[]>(`${environment.baseApi}lists`)
 	.pipe(

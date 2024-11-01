@@ -1,51 +1,59 @@
-<mat-card
-    class="w-full task-item"
-    appearance="outlined"
-	[class.done]="checkbox.checked"
->
-    <div class="flex w-full">
-        <mat-checkbox
-            #checkbox
-            class="ml-2 mt-2"
-        ></mat-checkbox>
-        <div class="basis-full">
-            <mat-card-header class="!pl-0">
-                <mat-card-title-group>
-                    <mat-card-title
-                        class="cursor-pointer"
-                        (click)="checkbox.toggle()"
-						[class.line-through]="checkbox.checked"
-                    >
-                        Shiba Inu
-                    </mat-card-title>
-                    <mat-card-subtitle>
-						<small>
-							25/02/02
-						</small>
-					</mat-card-subtitle>
-                    <button [matMenuTriggerFor]="menu" mat-icon-button>
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content class="!pl-0">test</mat-card-content>
-        </div>
-    </div>
-</mat-card>
+@if (data) {
+	<mat-card
+	    class="w-full task-item mb-3 last:mb-0"
+	    appearance="outlined"
+		[class.done]="checkbox.checked"
+	>
+	    <div class="flex w-full">
+	        <mat-checkbox
+	            #checkbox
+	            class="ml-2 mt-2"
+	        ></mat-checkbox>
+	        <div class="basis-full">
+	            <mat-card-header class="!pl-0">
+	                <mat-card-title-group>
+	                    <mat-card-title
+	                        class="cursor-pointer"
+	                        (click)="checkbox.toggle()"
+							[class.line-through]="checkbox.checked"
+	                    >
+	                        {{ data.title }}
+	                    </mat-card-title>
+						@if (data.date) {
+							<mat-card-subtitle>
+								<small>
+									{{ data.date | date }}
+								</small>
+							</mat-card-subtitle>
+						}
+	                    <button [matMenuTriggerFor]="menu" mat-icon-button>
+	                        <mat-icon>more_vert</mat-icon>
+	                    </button>
+	                </mat-card-title-group>
+	            </mat-card-header>
+				@if (data.description) {
+					<mat-card-content class="!pl-0">
+						{{ data.description }}
+					</mat-card-content>
+				}
+	        </div>
+	    </div>
+	</mat-card>
 
-<mat-menu #menu="matMenu">
-	<button mat-menu-item>
-		<mat-icon>
-			edit
-		</mat-icon>
-		Edit
-	</button>
-	<button mat-menu-item class="delete-button">
-		<mat-icon>
-			delete_outline
-		</mat-icon>
-		<span>
-			Delete
-		</span>
-	</button>
-</mat-menu>
+	<mat-menu #menu="matMenu">
+		<button (click)="editTask()" mat-menu-item>
+			<mat-icon>
+				edit
+			</mat-icon>
+			Edit
+		</button>
+		<button (click)="deleteTask()" mat-menu-item class="delete-button">
+			<mat-icon>
+				delete_outline
+			</mat-icon>
+			<span>
+				Delete
+			</span>
+		</button>
+	</mat-menu>
+}

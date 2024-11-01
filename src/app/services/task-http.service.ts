@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { ListModel } from '@models/list.model';
+import { TaskModel } from '@models/task.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,11 +11,20 @@ export class TaskHttpService {
 
   constructor(private http: HttpClient) { }
 
-  getMainTasks(): Observable<ListModel> {
-	return this.http.get<ListModel>(`${environment.baseApi}mainList`);
+  getTasksById(id:string): Observable<TaskModel[]> {
+	return this.http.get<TaskModel[]>(`${environment.baseApi}tasks/query/${id}`);
   }
 
-  getTasksById(id:string): Observable<any> {
-	return this.http.get<ListModel>(`${environment.baseApi}tasks/query/${id}`);
+  updateTask(id:string,data:TaskModel): Observable<TaskModel> {
+	return this.http.put<TaskModel>(`${environment.baseApi}tasks/${id}`, data)
   }
+
+  addTask(data:TaskModel): Observable<TaskModel> {
+	return this.http.post<TaskModel>(`${environment.baseApi}tasks`, data)
+  }
+
+  deleteTask(id:string) {
+	return this.http.delete(`${environment.baseApi}tasks/${id}`)
+  }
+
 }

@@ -4,7 +4,7 @@
 			{{ listData.title }} 
 		</h2>
 		<div class="flex items-center">
-			<button mat-flat-button class="add-task-btn">
+			<button (click)="newTask()" mat-flat-button class="add-task-btn">
 				<mat-icon>add</mat-icon>
 				Add task
 			</button>
@@ -15,11 +15,13 @@
 			}
 		</div>
 	</div>
-	
-	<app-task-item />
-	
+	<div class="h-full sm:overflow-y-auto sm:max-h-[calc(100vh_-_205px)]">
+		@for (item of tasksList(); track item._id) {
+			<app-task-item (itemDeleted)="deleteTask($event)" [data]="item" [listData]="listData" />
+		}
+	</div>
 	<div class="fixed right-4 bottom-4 sm:hidden">
-		<button mat-fab extended>
+		<button (click)="newTask()" mat-fab extended>
 			<mat-icon>add</mat-icon>
 			Add new task
 		</button>

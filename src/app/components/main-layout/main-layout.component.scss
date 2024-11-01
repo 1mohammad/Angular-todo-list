@@ -1,0 +1,6 @@
+.mat-drawer-side {
+	@apply w-14;
+	&.expanded {
+		@apply w-fit;
+	}
+}

@@ -1,5 +1,9 @@
 <mat-drawer-container class="h-full">
-	<mat-drawer mode="side" opened>
+	<mat-drawer 
+		mode="side" 
+		opened
+		[class.expanded]="menuExpanded"
+	>
 		<app-side-nav/>
 	</mat-drawer>
 	<mat-drawer-content>

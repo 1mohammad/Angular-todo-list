@@ -13,5 +13,9 @@ import { SideNavComponent } from "@components/side-nav/side-nav.component";
   styleUrl: './main-layout.component.scss'
 })
 export class MainLayoutComponent {
-
+	menuExpanded = false;
+	
+	toggleMenuExpand () {
+		this.menuExpanded = !this.menuExpanded;
+	}
 }

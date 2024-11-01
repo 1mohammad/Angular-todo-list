@@ -1,25 +1,22 @@
 import { Routes } from '@angular/router';
+import { ROUTES } from '@enums/routes.enum';
 
 export const routes: Routes = [
 	{
 		path: "",
-		redirectTo: "today-tasks",
+		redirectTo: ROUTES.HOME,
 		pathMatch: "full"
 	},
 	{
-		path: "all-tasks",
-		loadComponent: () => import('./pages/all-tasks/all-tasks.component').then(c => c.AllTasksComponent)
-	},
-	{
-		path: "completed-tasks",
+		path: ROUTES.COMPLETED_TASKS,
 		loadComponent: () => import('./pages/completed-tasks/completed-tasks.component').then(c => c.CompletedTasksComponent)
 	},
 	{
-		path: "today-tasks",
+		path: ROUTES.HOME,
 		loadComponent: () => import('./pages/today-tasks/today-tasks.component').then(c => c.TodayTasksComponent)
 	},
 	{
 		path: "**",
-		redirectTo: "today-tasks"
+		redirectTo: ROUTES.HOME
 	}
 ];

@@ -1,12 +1,19 @@
-@if (data) {
+@if (listData) {
 	<div class="flex items-center justify-between mb-5 flex-nowrap">
 		<h2 class="custom-title text-wrap">
-			{{ data.title }} 
+			{{ listData.title }} 
 		</h2>
-		<button mat-flat-button class="add-task-btn">
-			<mat-icon>add</mat-icon>
-			Add task
-		</button>
+		<div class="flex items-center">
+			<button mat-flat-button class="add-task-btn">
+				<mat-icon>add</mat-icon>
+				Add task
+			</button>
+			@if (!listData.isMain) {
+				<button mat-icon-button [matMenuTriggerFor]="menu">
+					<mat-icon>more_vert</mat-icon>
+				</button>
+			}
+		</div>
 	</div>
 	
 	<app-task-item />
@@ -17,4 +24,20 @@
 			Add new task
 		</button>
 	</div>
+	<mat-menu #menu="matMenu">
+		<button (click)="editList()" mat-menu-item>
+			<mat-icon>
+				edit
+			</mat-icon>
+			Edit
+		</button>
+		<button (click)="deleteList()" mat-menu-item class="delete-button">
+			<mat-icon>
+				delete_outline
+			</mat-icon>
+			<span>
+				Delete
+			</span>
+		</button>
+	</mat-menu>
 }

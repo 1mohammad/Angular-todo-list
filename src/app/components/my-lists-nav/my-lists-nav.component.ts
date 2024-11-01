@@ -7,9 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { Router, RouterModule } from '@angular/router';
 import { AddEditListDialogComponent } from '@components/add-edit-list-dialog/add-edit-list-dialog.component';
+import { ROUTES } from '@enums/routes.enum';
 import { ListModel } from '@models/list.model';
 import { ListHttpService } from '@services/list-http.service';
+import { ListService } from '@services/list.service';
 
 @Component({
   selector: 'app-my-lists-nav',
@@ -21,7 +24,8 @@ import { ListHttpService } from '@services/list-http.service';
 	MatFormFieldModule,
 	MatInputModule,
 	FormsModule,
-	MatMenuModule
+	MatMenuModule,
+	RouterModule
   ],
   templateUrl: './my-lists-nav.component.html',
   styleUrl: './my-lists-nav.component.scss'
@@ -29,6 +33,9 @@ import { ListHttpService } from '@services/list-http.service';
 export class MyListsNavComponent implements OnInit {
 	readonly dialog = inject(MatDialog);
 	readonly httpService = inject(ListHttpService);
+	readonly listService = inject(ListService);
+	readonly router = inject(Router);
+	readonly routesEnum = ROUTES;
 	myLists = signal<ListModel[]>([]);
 
 	ngOnInit(): void {
@@ -43,26 +50,15 @@ export class MyListsNavComponent implements OnInit {
 		})
 	}
 	
-	openDialog(list?:ListModel): void {
-		const dialogRef = this.dialog.open(AddEditListDialogComponent, {
-		  data: {title: list?.title,date: list?.date},
-		});
-	
-		dialogRef.afterClosed().subscribe(result => {
-		  if (result !== undefined && !result.error) {
-			let serverRequest$;
-			if (list) {
-				serverRequest$ = this.httpService.updateList(list._id,result.title,result.date);
-			} else {
-				serverRequest$ = this.httpService.addList(result.title,result.date)
-			}
-			serverRequest$.subscribe({
-				next: (res) => {
-					this.myLists.update(list => ([...list, res]))
+	addList(): void {
+		this.listService.openAddEditDialog().subscribe({
+			next: (res) => {
+				if (res) {
+					this.myLists.update(list => ([...list, res]));
+					this.router.navigate(['/'+ROUTES.MY_LIST,res._id]);
 				}
-			})
-		  }
-		});
+			}
+		})
 	}
 	
 }

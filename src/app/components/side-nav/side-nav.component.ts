@@ -1,0 +1,39 @@
+import { Component } from '@angular/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
+import { ROUTES } from '@enums/routes.enum';
+
+interface menuItems {
+	routerLink: string[],
+	icon: string,
+	title: string
+}
+
+@Component({
+  selector: 'app-side-nav',
+  standalone: true,
+  imports: [
+	MatListModule, 
+	MatIconModule,
+	MatDividerModule,
+	RouterModule
+  ],
+  templateUrl: './side-nav.component.html',
+  styleUrl: './side-nav.component.scss'
+})
+export class SideNavComponent {
+	menuItems: menuItems[] = [
+		{
+			icon: 'home',
+			routerLink: ['/'+ROUTES.HOME],
+			title: 'Today\'s Tasks'
+		},
+		{
+			icon: 'done',
+			routerLink: ['/'+ROUTES.COMPLETED_TASKS],
+			title: 'Completed Missions'
+		}
+	]
+}

@@ -1,0 +1,42 @@
+<nav class="px-3">
+	<div class="mb-3">
+		<span class="text-xl text-rose font-bold p-4 block">
+			Todo List
+		</span>
+		<mat-divider></mat-divider>
+	</div>
+    <mat-nav-list class="h-full overflow-y-auto">
+		@for (item of menuItems; track $index) {
+			<a
+            	mat-list-item
+            	[routerLink]="item.routerLink"
+				routerLinkActive="mdc-list-item--activated"
+				class="mb-1 last:mb-0"
+        	>
+            	<mat-icon matListItemIcon>
+					{{ item.icon }}
+				</mat-icon>
+            	<div matListItemTitle>
+					{{ item.title }}
+				</div>
+        	</a>
+		}
+		<div class="py-5">
+			<mat-divider></mat-divider>
+			<div class="pb-2"></div>
+			<div mat-subheader>
+				Other lists
+			</div>
+			<mat-list-item class="add-new-list border border-dashed border-rose">
+				<mat-icon
+					matListItemIcon
+				>
+					add
+				</mat-icon>
+            	<div matListItemTitle>
+					Add new list
+				</div>
+			</mat-list-item>
+		</div>
+    </mat-nav-list>
+</nav>

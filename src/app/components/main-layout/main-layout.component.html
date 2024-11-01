@@ -1,3 +1,16 @@
-<main>
-	<ng-content></ng-content>
-</main>
+<mat-sidenav-container 
+	class="h-full"
+	[style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+	<mat-sidenav 
+		#sidenav
+		[mode]="mobileQuery.matches ? 'over' : 'side'"
+		[fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
+		[opened]="mobileQuery.matches ? false : true"
+	>
+		<app-side-nav/>
+	</mat-sidenav>
+	<mat-sidenav-content class="bg-white">
+		<app-header (toggleSidenav)="sidenav.toggle()" />
+		<ng-content></ng-content>
+	</mat-sidenav-content>
+</mat-sidenav-container>

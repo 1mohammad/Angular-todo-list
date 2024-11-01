@@ -15,7 +15,7 @@ export class TaskHttpService {
 	return this.http.get<TaskModel[]>(`${environment.baseApi}tasks/query/${id}`);
   }
 
-  updateTask(id:string,data:TaskModel): Observable<TaskModel> {
+  updateTask(id:string,data:Partial<TaskModel>): Observable<TaskModel> {
 	return this.http.put<TaskModel>(`${environment.baseApi}tasks/${id}`, data)
   }
 
@@ -23,8 +23,8 @@ export class TaskHttpService {
 	return this.http.post<TaskModel>(`${environment.baseApi}tasks`, data)
   }
 
-  deleteTask(id:string) {
-	return this.http.delete(`${environment.baseApi}tasks/${id}`)
+  deleteTask(id:string):Observable<TaskModel>  {
+	return this.http.delete<TaskModel>(`${environment.baseApi}tasks/${id}`)
   }
 
 }

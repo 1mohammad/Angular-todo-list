@@ -1,8 +1,8 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, model, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 import { TaskModel } from '@models/task.model';
 import { DatePipe } from '@angular/common';
@@ -28,7 +28,7 @@ export class TaskItemComponent {
 	private readonly taskService = inject(TaskService);
 	private readonly taskHttpService = inject(TaskHttpService);
 	
-	@Input({required: true}) data?: TaskModel;
+	@Input({required: true}) data!: TaskModel;
 	@Input({required: true}) listData?: ListModel;
 
 	@Output() itemDeleted = new EventEmitter<TaskModel>();
@@ -47,9 +47,18 @@ export class TaskItemComponent {
 		if(!this.data || !this.data._id) return;
 		this.taskHttpService.deleteTask(this.data._id).subscribe({
 			next: (res) => {
-				console.log(res);
-				this.itemDeleted.emit(this.data);
+				this.itemDeleted.emit(res);
 			}
 		})
+	}
+
+	toggleDone(checkbox:MatCheckboxChange):void {
+		if(!this.data || !this.data._id) return;
+		this.taskHttpService.updateTask(
+			this.data._id,{done: checkbox.checked}).subscribe({
+				next: () => {
+					this.data.done = checkbox.checked;
+				}
+			})
 	}
 }

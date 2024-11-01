@@ -2,10 +2,12 @@
 	<mat-card
 	    class="w-full task-item mb-3 last:mb-0"
 	    appearance="outlined"
-		[class.done]="checkbox.checked"
+		[class.done]="checkbox.checked || data.done"
 	>
 	    <div class="flex w-full">
 	        <mat-checkbox
+				(change)="toggleDone($event)"
+				[checked]="data.done"
 	            #checkbox
 	            class="ml-2 mt-2"
 	        ></mat-checkbox>
@@ -13,8 +15,6 @@
 	            <mat-card-header class="!pl-0">
 	                <mat-card-title-group>
 	                    <mat-card-title
-	                        class="cursor-pointer"
-	                        (click)="checkbox.toggle()"
 							[class.line-through]="checkbox.checked"
 	                    >
 	                        {{ data.title }}

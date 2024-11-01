@@ -3,6 +3,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { MyListsNavComponent } from '@components/my-lists-nav/my-lists-nav.component';
 import { ROUTES } from '@enums/routes.enum';
 
 interface menuItems {
@@ -18,7 +19,8 @@ interface menuItems {
 	MatListModule, 
 	MatIconModule,
 	MatDividerModule,
-	RouterModule
+	RouterModule,
+	MyListsNavComponent
   ],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.scss'

@@ -1,27 +1,29 @@
-<nav class="px-3">
-	<div class="mb-3">
+<nav class="px-3 flex flex-col h-full">
+	<div>
 		<span class="text-xl text-rose font-bold px-4 h-20 flex items-center">
 			Todo List
 		</span>
 		<mat-divider></mat-divider>
 	</div>
-    <mat-nav-list class="h-full overflow-y-auto">
-		@for (item of menuItems; track $index) {
-			<a
-            	mat-list-item
-            	[routerLink]="item.routerLink"
-				routerLinkActive="mdc-list-item--activated"
-				class="mb-1 last:mb-0"
-				(click)="closeSidenav.emit()"
-        	>
-            	<mat-icon matListItemIcon>
-					{{ item.icon }}
-				</mat-icon>
-            	<div matListItemTitle>
-					{{ item.title }}
-				</div>
-        	</a>
-		}
-		<app-my-lists-nav />
-    </mat-nav-list>
+	<div class="h-full overflow-y-auto pt-3">
+		<mat-nav-list>
+			@for (item of menuItems; track $index) {
+				<a
+					mat-list-item
+					[routerLink]="item.routerLink"
+					routerLinkActive="mdc-list-item--activated"
+					class="mb-1 last:mb-0"
+					(click)="closeSidenav.emit()"
+				>
+					<mat-icon matListItemIcon>
+						{{ item.icon }}
+					</mat-icon>
+					<div matListItemTitle>
+						{{ item.title }}
+					</div>
+				</a>
+			}
+			<app-my-lists-nav />
+		</mat-nav-list>
+	</div>
 </nav>

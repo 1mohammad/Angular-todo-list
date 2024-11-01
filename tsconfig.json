@@ -25,7 +25,8 @@
     ],
 	"paths": {
 		"@environments/*": ["./src/environments/*"],
-		"@components/*": ["./src/app/components/*"]
+		"@components/*": ["./src/app/components/*"],
+		"@enums/*": ["./src/app/enums/*"]
 	}
   },
   "angularCompilerOptions": {

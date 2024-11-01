@@ -9,10 +9,8 @@
 	>
 		<app-side-nav/>
 	</mat-sidenav>
-	<mat-sidenav-content>
-		<button (click)="sidenav.toggle()">
-			side
-		</button>
+	<mat-sidenav-content class="bg-white">
+		<app-header (toggleSidenav)="sidenav.toggle()" />
 		<ng-content></ng-content>
 	</mat-sidenav-content>
 </mat-sidenav-container>

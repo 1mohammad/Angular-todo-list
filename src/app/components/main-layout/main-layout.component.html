@@ -27,6 +27,8 @@
 				<app-header (toggleSidenav)="sidenav.toggle()" />
 			}
 		}
-		<ng-content></ng-content>
+		<main class="py-10 px-4 sm:px-10">
+			<ng-content></ng-content>
+		</main>
 	</mat-sidenav-content>
 </mat-sidenav-container>

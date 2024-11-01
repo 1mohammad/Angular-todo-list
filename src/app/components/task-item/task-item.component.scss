@@ -1,0 +1,12 @@
+.task-item {
+	@apply transition-all;
+	&.done {
+		@apply bg-gray-100;
+	}
+}
+
+.delete-button {
+	* {
+		@apply text-red-500;
+	}
+}

@@ -1,1 +1,18 @@
-<p>task-list works!</p>
+<div class="flex items-center justify-between mb-5 flex-nowrap">
+    <h2 class="custom-title text-wrap">
+		Today's Tasks 
+	</h2>
+    <button mat-flat-button class="add-task-btn">
+        <mat-icon>add</mat-icon>
+        Add task
+    </button>
+</div>
+
+<app-task-item />
+
+<div class="fixed right-4 bottom-4 sm:hidden">
+	<button mat-fab extended>
+		<mat-icon>add</mat-icon>
+		Add new task
+	</button>
+</div>

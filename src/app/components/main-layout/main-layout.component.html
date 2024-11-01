@@ -1,12 +1,18 @@
-<mat-drawer-container class="h-full">
-	<mat-drawer 
-		mode="side" 
-		opened
-		[class.expanded]="menuExpanded"
+<mat-sidenav-container 
+	class="h-full"
+	[style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+	<mat-sidenav 
+		#sidenav
+		[mode]="mobileQuery.matches ? 'over' : 'side'"
+		[fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
+		[opened]="mobileQuery.matches ? false : true"
 	>
 		<app-side-nav/>
-	</mat-drawer>
-	<mat-drawer-content>
+	</mat-sidenav>
+	<mat-sidenav-content>
+		<button (click)="sidenav.toggle()">
+			side
+		</button>
 		<ng-content></ng-content>
-	</mat-drawer-content>
-</mat-drawer-container>
+	</mat-sidenav-content>
+</mat-sidenav-container>

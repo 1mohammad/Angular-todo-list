@@ -20,14 +20,4 @@ describe('MainLayoutComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should toggle menuExpanded property when toggleMenuExpand is called', () => {
-    const initialMenuExpandedState = component.menuExpanded;
-
-    component.toggleMenuExpand();
-    expect(component.menuExpanded).toBe(!initialMenuExpandedState);
-
-    component.toggleMenuExpand();
-    expect(component.menuExpanded).toBe(initialMenuExpandedState);
-  });
 });

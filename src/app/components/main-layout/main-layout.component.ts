@@ -1,6 +1,9 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { ChangeDetectorRef, Component, inject, OnDestroy } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from '@components/header/header.component';
 import { SideNavComponent } from "@components/side-nav/side-nav.component";
 
@@ -10,7 +13,10 @@ import { SideNavComponent } from "@components/side-nav/side-nav.component";
   imports: [
     MatSidenavModule,
     SideNavComponent,
-	HeaderComponent
+	HeaderComponent,
+	MatToolbarModule,
+	MatIconModule,
+	MatButtonModule
 ],
   templateUrl: './main-layout.component.html',
   styleUrl: './main-layout.component.scss'

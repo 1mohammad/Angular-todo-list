@@ -1,16 +1,32 @@
+@if (mobileQuery.matches) {
+	<mat-toolbar>
+		<button mat-icon-button (click)="sidenav.toggle()">
+			<mat-icon>menu</mat-icon>
+		</button>
+		<span class="ml-2">Todo List</span>
+		<span class="flex-1 basis-auto"></span>
+		<a mat-stroked-button href="https://github.com/1mohammad/angular-todo-list" target="_blank">
+			Github
+		</a>
+	</mat-toolbar>
+}
+
 <mat-sidenav-container 
-	class="h-full"
-	[style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+	class="h-full">
 	<mat-sidenav 
 		#sidenav
 		[mode]="mobileQuery.matches ? 'over' : 'side'"
 		[fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
 		[opened]="mobileQuery.matches ? false : true"
 	>
-		<app-side-nav/>
+		<app-side-nav (closeSidenav)="mobileQuery.matches && sidenav.close()"/>
 	</mat-sidenav>
 	<mat-sidenav-content class="bg-white">
-		<app-header (toggleSidenav)="sidenav.toggle()" />
+		@if (!mobileQuery.matches) {
+			@defer (when !mobileQuery.matches) {
+				<app-header (toggleSidenav)="sidenav.toggle()" />
+			}
+		}
 		<ng-content></ng-content>
 	</mat-sidenav-content>
 </mat-sidenav-container>

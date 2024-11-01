@@ -1,6 +1,6 @@
 <nav class="px-3">
 	<div class="mb-3">
-		<span class="text-xl text-rose font-bold py-5 px-4 block">
+		<span class="text-xl text-rose font-bold px-4 h-20 flex items-center">
 			Todo List
 		</span>
 		<mat-divider></mat-divider>
@@ -12,6 +12,7 @@
             	[routerLink]="item.routerLink"
 				routerLinkActive="mdc-list-item--activated"
 				class="mb-1 last:mb-0"
+				(click)="closeSidenav.emit()"
         	>
             	<mat-icon matListItemIcon>
 					{{ item.icon }}

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { MatIconButton } from '@angular/material/button';
+import { MatButtonModule, MatIconButton } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -8,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
 	MatIconModule,
 	MatIconButton,
+	MatDividerModule,
+	MatButtonModule
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { TaskHttpService } from './task-http.service';
 import { TaskModel } from '@models/task.model';
 import { AddEditTaskDialogComponent } from '@components/add-edit-task-dialog/add-edit-task-dialog.component';
@@ -12,6 +12,14 @@ export class TaskService {
 	private readonly httpService = inject(TaskHttpService);
 	private readonly dialog = inject(MatDialog);
 
+	/**
+	 * Opens a dialog to add or edit a task, returning an Observable of the updated or newly created task.
+	 * If the dialog is cancelled or an error occurs, it returns an Observable of undefined.
+	 *
+	 * @param {string | undefined} listId The ID of the list to which the task belongs; required if adding a new task.
+	 * @param {TaskModel | undefined} task The task to be edited; if undefined, a new task will be created.
+	 * @returns {Observable<TaskModel | undefined>} An Observable emitting the updated or newly created task, or undefined if the dialog was cancelled or an error occurred.
+	 */
 	openAddEditTaskDialog(listId?: string, task?: TaskModel): Observable<TaskModel | undefined> {
 		const dialogRef = this.dialog.open(AddEditTaskDialogComponent, {
 			width: '40vw',
@@ -20,27 +28,21 @@ export class TaskService {
 
 		return dialogRef.afterClosed().pipe(
 			switchMap(result => {
-				if (result !== undefined && !result.error) {
+				if (result && !result.error) {
 					if (task && task._id) {
-						return this.httpService.updateTask(task._id, result)
-							// TODO: DELETE this part and just return result after backend issue is fixed. Currently, the result is wrong and returning old data.
-							.pipe(
-								map(item => ({ ...item, title: result.title, description: result.description, date: result.date }))
-							);
+						// TODO: Remove workaround after backend issue is fixed. Adjusting result to match expected format.
+						return this.httpService.updateTask(task._id, result).pipe(
+							map(item => ({ ...item, ...result }))
+						);
 					} else {
-						let newTask: TaskModel;
-						if (listId) {
-							newTask = {
-								...result,
-								list: listId
-							}
-						} else {
-							newTask = { ...result }
-						}
-
+						const newTask: TaskModel = { ...result, ...(listId && { list: listId }) };
 						return this.httpService.addTask(newTask);
 					}
 				}
+				return of(undefined);
+			}),
+			catchError(error => {
+				console.error('Error updating or adding the task:', error);
 				return of(undefined);
 			})
 		);

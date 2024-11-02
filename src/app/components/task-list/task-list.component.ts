@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, effect, inject, input, Input, signal, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -42,7 +42,7 @@ export class TaskListComponent {
 	private readonly router = inject(Router);
 	private readonly listStateService = inject(ListStateService);
 
-	@Input({ required: true }) data: ListModel | undefined;
+	data = input.required<ListModel | undefined>();
 
 	isCompletedTasks = input(false);
 	showSlogan = input(false);
@@ -68,31 +68,32 @@ export class TaskListComponent {
 			icon: "delete_outline",
 			callback: () => this.deleteList()
 		}
-	]
+	];
 
-	ngOnChanges(changes: SimpleChanges): void {
-		if (!changes['data'] || !changes['data'].currentValue || changes['data'].previousValue?._id === changes['data'].currentValue._id) {
-			return;
-		}
-
-		const newData = changes['data'].currentValue;
-		this.listData = newData;
-		const newId = newData?._id;
-
-		if (newId) {
-			this.isLoading = true;
-			this.taskHttpService.getTasksById(newId)
-			.pipe(
-				finalize(() => {
-					this.isLoading = false;
-				})
-			)
-			.subscribe({
-				next: (res) => {
-					this.tasksList.set(res);
+	constructor() {
+		effect(()=> {
+			if (this.data()) {
+				const newData = this.data();
+				this.listData = newData;
+				const newId = newData?._id;
+		
+				if (newId) {
+					this.isLoading = true;
+					this.taskHttpService.getTasksById(newId)
+					.pipe(
+						finalize(() => {
+							this.isLoading = false;
+						})
+					)
+					.subscribe({
+						next: (res) => {
+							this.tasksList.set(res);
+						}
+					});
 				}
-			});
-		}
+			}
+
+		})
 	}
 
 	deleteList(): void {

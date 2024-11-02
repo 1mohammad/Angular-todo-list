@@ -3,7 +3,7 @@
 		<h2 class="!mb-0 text-wrap">
 			{{ listData.title }} 
 		</h2>
-		@if (!isCompletedTasks) {
+		@if (!isCompletedTasks()) {
 			<div class="flex items-center basis-1/4 justify-end gap-2">
 				<button (click)="newTask()" mat-flat-button class="add-task-btn">
 					<mat-icon>add</mat-icon>
@@ -15,15 +15,20 @@
 			</div>
 		}
 	</div>
+	@if (showSlogan()) {
+		<app-slogan 
+			icon="assets/svg/today.svg" 
+			title="Welcome back!" 
+			description="Wishing you a productive and joyful day ahead." 
+		/>
+	}
 	@if (tasksList().length > 0) {
-		<div class="task-list-wrapper">
 			@for (item of tasksList(); track item._id) {
 				<app-task-item (itemDeleted)="deleteTask(item)" [data]="item" [listData]="listData" />
 			}
-		</div>
 	} @else {
 		<div class="flex justify-center items-center flex-col">
-			<svg-icon class="w-2/3 sm:w-1/2" src="assets/svg/empty-list.svg"></svg-icon>
+			<svg-icon class="w-2/3 sm:w-1/3" src="assets/svg/empty-list.svg"></svg-icon>
 			<p>
 				Your canvas is blank.
 			</p>

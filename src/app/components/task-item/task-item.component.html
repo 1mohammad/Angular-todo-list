@@ -29,11 +29,9 @@
 	                   <app-more-options [options]="cardOptions" />
 	                </mat-card-title-group>
 	            </mat-card-header>
-				@if (data.description) {
-					<mat-card-content class="!pl-0">
-						{{ data.description }}
-					</mat-card-content>
-				}
+				<mat-card-content class="!pl-0">
+					{{ data.description }}
+				</mat-card-content>
 	        </div>
 	    </div>
 	</mat-card>

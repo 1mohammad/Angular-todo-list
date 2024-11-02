@@ -1,9 +1,10 @@
-import { Component, inject, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, inject, input, Input, signal, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { MoreOptionsComponent } from '@components/more-options/more-options.component';
+import { SloganComponent } from '@components/slogan/slogan.component';
 import { TaskItemComponent } from '@components/task-item/task-item.component';
 import { ListModel } from '@models/list.model';
 import { Options } from '@models/more-options.model';
@@ -23,7 +24,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 	TaskItemComponent,
 	MatMenuModule,
 	AngularSvgIconModule,
-	MoreOptionsComponent
+	MoreOptionsComponent,
+	SloganComponent
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
@@ -36,7 +38,8 @@ export class TaskListComponent {
 	private readonly router = inject(Router);
 
 	@Input({required: true}) data: ListModel | undefined;
-	@Input() isCompletedTasks = false;
+	isCompletedTasks = input(false);
+	showSlogan = input(false);
 
 	listData?: ListModel;
 	tasksList = signal<TaskModel[]>([]);

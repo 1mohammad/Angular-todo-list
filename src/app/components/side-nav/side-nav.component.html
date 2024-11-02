@@ -23,7 +23,7 @@
 					</div>
 				</a>
 			}
-			<app-my-lists-nav />
+			<app-my-lists-nav (itemClicked)="closeSidenav.emit()" />
 		</mat-nav-list>
 	</div>
 </nav>

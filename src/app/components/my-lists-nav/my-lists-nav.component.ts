@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterModule } from '@angular/router';
-import { AddEditListDialogComponent } from '@components/add-edit-list-dialog/add-edit-list-dialog.component';
 import { ROUTES } from '@enums/routes.enum';
 import { ListModel } from '@models/list.model';
 import { ListHttpService } from '@services/list-http.service';
@@ -37,6 +36,8 @@ export class MyListsNavComponent implements OnInit {
 	readonly router = inject(Router);
 	readonly routesEnum = ROUTES;
 	myLists = signal<ListModel[]>([]);
+
+	@Output() itemClicked = new EventEmitter<void>()
 
 	ngOnInit(): void {
 		this.getMyLists();

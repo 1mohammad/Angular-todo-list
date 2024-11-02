@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, effect, inject, input, Input, signal, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -42,7 +42,7 @@ export class TaskListComponent {
 	private readonly router = inject(Router);
 	private readonly listStateService = inject(ListStateService);
 
-	@Input({ required: true }) data: ListModel | undefined;
+	data = input.required<ListModel | undefined>();
 
 	isCompletedTasks = input(false);
 	showSlogan = input(false);
@@ -68,33 +68,40 @@ export class TaskListComponent {
 			icon: "delete_outline",
 			callback: () => this.deleteList()
 		}
-	]
+	];
 
-	ngOnChanges(changes: SimpleChanges): void {
-		if (!changes['data'] || !changes['data'].currentValue || changes['data'].previousValue?._id === changes['data'].currentValue._id) {
-			return;
-		}
+	constructor() {
+		effect(() => {
+			if (this.data()) {
+				const newData = this.data();
+				this.listData = newData;
+				const newId = newData?._id;
 
-		const newData = changes['data'].currentValue;
-		this.listData = newData;
-		const newId = newData?._id;
-
-		if (newId) {
-			this.isLoading = true;
-			this.taskHttpService.getTasksById(newId)
-			.pipe(
-				finalize(() => {
-					this.isLoading = false;
-				})
-			)
-			.subscribe({
-				next: (res) => {
-					this.tasksList.set(res);
+				if (newId) {
+					this.isLoading = true;
+					this.taskHttpService.getTasksById(newId)
+						.pipe(
+							finalize(() => {
+								this.isLoading = false;
+							})
+						)
+						.subscribe({
+							next: (res) => {
+								this.tasksList.set(res);
+							}
+						});
 				}
-			});
-		}
+			}
+
+		})
 	}
 
+
+	/**
+	 * Deletes the current list and navigates to the home page upon successful deletion.
+	 * Assumes `listData` is an object that contains the `_id` of the list to be deleted.
+	 * If `listData` is undefined or does not contain a valid `_id`, the function will exit early.
+	 */
 	deleteList(): void {
 		if (!this.listData?._id) return;
 		this.listHttpService.deleteList(this.listData._id).subscribe({
@@ -105,6 +112,12 @@ export class TaskListComponent {
 		})
 	}
 
+	/**
+	 * Initiates the editing of an existing list by opening a dialog.
+	 * Updates the local state and the current list data with the result from the dialog.
+	 * Assumes `listData` contains the list to be edited. If `listData` is undefined,
+	 * the method will exit early, preventing the dialog from opening.
+	 */
 	editList(): void {
 		if (!this.listData) return;
 		this.listService.openAddEditListDialog(this.listData).subscribe({
@@ -116,6 +129,13 @@ export class TaskListComponent {
 		})
 	}
 
+	/**
+	 * Initiates the process to create a new task associated with the current list.
+	 * Opens a dialog for entering the task details and adds the new task to the
+	 * tasks list upon successful creation. If `listData` is undefined, indicating
+	 * that no list is currently selected, the method will exit early to prevent
+	 * the dialog from opening.
+	 */
 	newTask(): void {
 		if (!this.listData) return;
 		this.taskService.openAddEditTaskDialog(this.listData._id).subscribe({
@@ -130,16 +150,14 @@ export class TaskListComponent {
 		this.tasksList.update(data => data.filter(item => item._id !== task._id));
 	}
 
+	/**
+	 * Toggles the completion status of a given task.
+	 * Iterates through the list of tasks, updating the 'done' status of the task
+	 *
+	 * @param {TaskModel} task The task object whose 'done' status needs to be toggled.
+	 */
 	changeTaskDone(task: TaskModel): void {
-		this.tasksList.update(tasks => {
-			const updatedTasks = tasks.map(t => {
-				if (t._id === task._id) {
-					return { ...t, done: task.done };
-				}
-				return t;
-			});
-			return updatedTasks;
-		});
+		this.tasksList.update(tasks => tasks.map(t => t._id === task._id ? { ...t, done: task.done } : t));
 	}
 
 }

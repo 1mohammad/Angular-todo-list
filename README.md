@@ -1,27 +1,73 @@
-# TodoList
+**Angular To-Do App**
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+This Angular application provides a user-friendly interface for managing tasks and lists. 
 
-## Development server
+**Features**
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+* **Task Management**
+    * Create new tasks
+    * Edit existing tasks
+    * Delete tasks
+    * Mark tasks as completed or incomplete
+* **List Management**
+    * Create new lists
+    * Edit existing lists
+    * Delete lists
+* **Today's Tasks**
+    * Dedicated section for today's tasks
+    * Add tasks to today's list
+    * Move tasks from other lists to today's list
+* **Completed Tasks**
+    * View completed tasks
+    * Mark completed tasks as incomplete
 
-## Code scaffolding
+**Getting Started**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/your-username/angular-todo-list.git
+   ```
 
-## Build
+2. **Install Dependencies:**
+   ```bash
+   cd angular-todo-list
+   npm install
+   ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. **Start the Development Server:**
+   ```bash
+   ng serve
+   ```
 
-## Running unit tests
+**Deployment**
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. **Build the Application:**
+   ```bash
+   ng build --prod
+   ```
 
-## Running end-to-end tests
+2. **Deploy the Build:**
+   Deploy the built files to your preferred hosting platform (e.g., Firebase, Netlify, Heroku).
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+**Contributing**
 
-## Further help
+Feel free to contribute to this project by:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+* **Reporting Issues:** If you encounter any bugs or issues, please create an issue on the GitHub repository.
+* **Suggesting Features:** If you have ideas for new features, feel free to open a new issue or a pull request.
+* **Submitting Pull Requests:** If you want to contribute code, please fork the repository, make your changes, and submit a pull request.
+
+**License**
+
+This project is licensed under the MIT License.
+
+**Additional Notes**
+
+* **State Management:** Consider using a state management library like NgRx or Akita to manage complex application state.
+* **Testing:** Write unit and integration tests to ensure code quality and maintainability.
+* **Accessibility:** Make sure the application is accessible to users with disabilities by following accessibility guidelines.
+* **Security:** Implement security best practices to protect user data.
+
+**Enjoy using this Angular To-Do app!**
+
+**Please let me know if you would like me to add any more details to the README file.**

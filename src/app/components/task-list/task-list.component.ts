@@ -2,6 +2,7 @@ import { Component, computed, inject, input, Input, signal, SimpleChanges } from
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MoreOptionsComponent } from '@components/more-options/more-options.component';
 import { SloganComponent } from '@components/slogan/slogan.component';
@@ -15,6 +16,7 @@ import { TaskHttpService } from '@services/task-http.service';
 import { TaskService } from '@services/task.service';
 import { ListStateService } from '@states/list-state.service';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { finalize } from 'rxjs';
 
 @Component({
 	selector: 'app-task-list',
@@ -26,7 +28,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 		MatMenuModule,
 		AngularSvgIconModule,
 		MoreOptionsComponent,
-		SloganComponent
+		SloganComponent,
+		MatProgressSpinnerModule
 	],
 	templateUrl: './task-list.component.html',
 	styleUrl: './task-list.component.scss'
@@ -40,11 +43,13 @@ export class TaskListComponent {
 	private readonly listStateService = inject(ListStateService);
 
 	@Input({ required: true }) data: ListModel | undefined;
+
 	isCompletedTasks = input(false);
 	showSlogan = input(false);
 
 	listData?: ListModel;
 	tasksList = signal<TaskModel[]>([]);
+	isLoading = false;
 
 	sortedTasks = computed(() => {
 		return this.tasksList().sort((a, b) => {
@@ -75,7 +80,14 @@ export class TaskListComponent {
 		const newId = newData?._id;
 
 		if (newId) {
-			this.taskHttpService.getTasksById(newId).subscribe({
+			this.isLoading = true;
+			this.taskHttpService.getTasksById(newId)
+			.pipe(
+				finalize(() => {
+					this.isLoading = false;
+				})
+			)
+			.subscribe({
 				next: (res) => {
 					this.tasksList.set(res);
 				}

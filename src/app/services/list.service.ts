@@ -3,7 +3,7 @@ import { ListModel } from '@models/list.model';
 import { ListHttpService } from './list-http.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddEditListDialogComponent } from '@components/add-edit-list-dialog/add-edit-list-dialog.component';
-import { Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,9 +11,8 @@ import { Observable, of, switchMap } from 'rxjs';
 export class ListService {
 	private readonly httpService = inject(ListHttpService);
 	private readonly dialog = inject(MatDialog);
-	constructor() { }
 
-	openAddEditDialog(list?: ListModel): Observable<ListModel | undefined> {
+	openAddEditListDialog(list?: ListModel): Observable<ListModel | undefined> {
 		const dialogRef = this.dialog.open(AddEditListDialogComponent, {
 			data: { title: list?.title, date: list?.date },
 		});
@@ -22,9 +21,13 @@ export class ListService {
 			switchMap(result => {
 				if (result !== undefined && !result.error) {
 					if (list) {
-						return this.httpService.updateList(list._id, result.title, result.date);
+						return this.httpService.updateList(list._id, result)
+						// TODO: DELETE this part and just return result after backend issue is fixed. Currently, the result is wrong and returning old data.
+						.pipe(
+							map(item => ({...item,title:result.title}))
+						);
 					} else {
-						return this.httpService.addList(result.title, result.date);
+						return this.httpService.addList(result);
 					}
 				}
 				return of(undefined);

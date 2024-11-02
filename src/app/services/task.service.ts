@@ -12,7 +12,7 @@ export class TaskService {
 	private readonly httpService = inject(TaskHttpService);
 	private readonly dialog = inject(MatDialog);
 
-	openAddEditDialog(listId?:string,task?: TaskModel): Observable<TaskModel | undefined> {
+	openAddEditTaskDialog(listId?:string,task?: TaskModel): Observable<TaskModel | undefined> {
 		const dialogRef = this.dialog.open(AddEditTaskDialogComponent, {
 			data: {title: task?.title, description: task?.description, date: task?.date },
 		});

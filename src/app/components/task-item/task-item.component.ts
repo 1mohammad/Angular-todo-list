@@ -45,7 +45,7 @@ export class TaskItemComponent {
 	]
 
 	editTask(): void {
-		this.taskService.openAddEditDialog(this.listData?._id, this.data).subscribe({
+		this.taskService.openAddEditTaskDialog(this.listData?._id, this.data).subscribe({
 			next: (res) => {
 				if (!res) return;
 				this.data = res;

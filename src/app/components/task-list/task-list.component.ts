@@ -14,6 +14,7 @@ import { ListService } from '@services/list.service';
 import { TaskHttpService } from '@services/task-http.service';
 import { TaskService } from '@services/task.service';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { ListStateService } from '../../states/list-state.service';
 
 @Component({
 	selector: 'app-task-list',
@@ -36,6 +37,7 @@ export class TaskListComponent {
 	private readonly listService = inject(ListService);
 	private readonly taskService = inject(TaskService);
 	private readonly router = inject(Router);
+	private readonly listStateService = inject(ListStateService);
 
 	@Input({ required: true }) data: ListModel | undefined;
 	isCompletedTasks = input(false);
@@ -82,9 +84,10 @@ export class TaskListComponent {
 	}
 
 	deleteList(): void {
-		if (!this.listData) return;
-		this.listHttpService.deleteList(this.listData?._id).subscribe({
-			next: () => {
+		if (!this.listData?._id) return;
+		this.listHttpService.deleteList(this.listData._id).subscribe({
+			next: (res) => {
+				this.listStateService.deleteList(res._id)
 				this.router.navigate(['/']);
 			}
 		})
@@ -92,9 +95,10 @@ export class TaskListComponent {
 
 	editList(): void {
 		if (!this.listData) return;
-		this.listService.openAddEditDialog(this.listData).subscribe({
+		this.listService.openAddEditListDialog(this.listData).subscribe({
 			next: (result) => {
 				if (!result) return;
+				this.listStateService.updateList(result);
 				this.listData = result;
 			}
 		})
@@ -102,7 +106,7 @@ export class TaskListComponent {
 
 	newTask(): void {
 		if (!this.listData) return;
-		this.taskService.openAddEditDialog(this.listData._id).subscribe({
+		this.taskService.openAddEditTaskDialog(this.listData._id).subscribe({
 			next: (res) => {
 				if (!res) return;
 				this.tasksList.update(list => ([...list, res]))

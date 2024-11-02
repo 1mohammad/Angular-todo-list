@@ -26,26 +26,16 @@ export class ListHttpService {
 	return this.http.get<ListModel>(`${environment.baseApi}lists/${id}`)
   }
 
-  updateList(id:string,title:string, date:Date): Observable<ListModel> {
-	const list = {
-		title,
-		date,
-		isMain: false
-	};
+  updateList(id:string,list:ListModel): Observable<ListModel> {
 	return this.http.put<ListModel>(`${environment.baseApi}lists/${id}`, list)
   }
 
-  addList(title:string, date:Date): Observable<ListModel> {
-	const list = {
-		title,
-		date,
-		isMain: false
-	};
+  addList(list: ListModel): Observable<ListModel> {
 	return this.http.post<ListModel>(`${environment.baseApi}lists`, list)
   }
 
-  deleteList(id:string) {
-	return this.http.delete(`${environment.baseApi}lists/${id}`)
+  deleteList(id:string): Observable<ListModel> {
+	return this.http.delete<ListModel>(`${environment.baseApi}lists/${id}`)
   }
 
 

@@ -12,6 +12,7 @@ import { ROUTES } from '@enums/routes.enum';
 import { ListModel } from '@models/list.model';
 import { ListHttpService } from '@services/list-http.service';
 import { ListService } from '@services/list.service';
+import { ListStateService } from '../../states/list-state.service';
 
 @Component({
   selector: 'app-my-lists-nav',
@@ -34,8 +35,10 @@ export class MyListsNavComponent implements OnInit {
 	readonly httpService = inject(ListHttpService);
 	readonly listService = inject(ListService);
 	readonly router = inject(Router);
+	readonly listStateService = inject(ListStateService);
 	readonly routesEnum = ROUTES;
-	myLists = signal<ListModel[]>([]);
+
+	myLists = this.listStateService.lists;
 
 	@Output() itemClicked = new EventEmitter<void>()
 
@@ -46,16 +49,16 @@ export class MyListsNavComponent implements OnInit {
 	getLists():void {
 		this.httpService.getMyLists().subscribe({
 			next: (res: ListModel[]) => {
-				this.myLists.set(res);
+				this.listStateService.setInitialList(res);
 			}
 		})
 	}
 	
 	addList(): void {
-		this.listService.openAddEditDialog().subscribe({
+		this.listService.openAddEditListDialog().subscribe({
 			next: (res) => {
 				if (res) {
-					this.myLists.update(list => ([...list, res]));
+					this.listStateService.addList(res);
 					this.router.navigate(['/'+ROUTES.MY_LIST,res._id]);
 				}
 			}

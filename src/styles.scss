@@ -1,4 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.container {
+		@apply mx-auto px-4 w-full sm:max-w-4xl;
+	}
+}
+:root {
+	--mat-divider-color: theme(colors.gray.300)
+}
+
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

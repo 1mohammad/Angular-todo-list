@@ -1,1 +1,38 @@
-<p>task-item works!</p>
+@if (data) {
+	<mat-card
+	    class="w-full task-item mb-3"
+	    appearance="outlined"
+		[class.done]="checkbox.checked || data.done"
+	>
+	    <div class="flex w-full">
+	        <mat-checkbox
+				(change)="toggleDone($event)"
+				[checked]="data.done"
+	            #checkbox
+	            class="ml-2 mt-2"
+	        ></mat-checkbox>
+	        <div class="basis-full">
+	            <mat-card-header class="!pl-0">
+	                <mat-card-title-group>
+	                    <mat-card-title
+							[class.line-through]="checkbox.checked"
+	                    >
+	                        {{ data.title }}
+	                    </mat-card-title>
+						@if (data.date) {
+							<mat-card-subtitle>
+								<small>
+									{{ data.date | date }}
+								</small>
+							</mat-card-subtitle>
+						}
+	                   <app-more-options [options]="cardOptions" />
+	                </mat-card-title-group>
+	            </mat-card-header>
+				<mat-card-content class="!pl-0">
+					{{ data.description }}
+				</mat-card-content>
+	        </div>
+	    </div>
+	</mat-card>
+}

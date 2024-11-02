@@ -1,0 +1,30 @@
+<div class="py-5">
+	<mat-divider></mat-divider>
+	<div class="pb-2"></div>
+	<div mat-subheader>
+		My lists
+	</div>
+	<mat-list-item 
+		(click)="addList()" 
+		class="add-new-list border border-dashed border-rose mb-2">
+		<mat-icon
+			matListItemIcon
+		>
+			add
+		</mat-icon>
+		<div matListItemTitle>
+			Add new list
+		</div>
+	</mat-list-item>
+	@for (item of myLists(); track item._id) {
+		<mat-list-item 
+			[routerLink]="['/'+routesEnum.MY_LIST,item._id]" 
+			routerLinkActive="mdc-list-item--activated"
+			(click)="itemClicked.emit()" 
+			class="mb-2 last:mb-0">
+			<div matListItemTitle>
+				{{ item.title }}
+			</div>
+		</mat-list-item>
+	}
+</div>

@@ -1,6 +1,6 @@
 @if (data) {
 	<mat-card
-	    class="w-full task-item mb-3 last:mb-0"
+	    class="w-full task-item mb-3"
 	    appearance="outlined"
 		[class.done]="checkbox.checked || data.done"
 	>
@@ -26,9 +26,7 @@
 								</small>
 							</mat-card-subtitle>
 						}
-	                    <button [matMenuTriggerFor]="menu" mat-icon-button>
-	                        <mat-icon>more_vert</mat-icon>
-	                    </button>
+	                   <app-more-options [options]="cardOptions" />
 	                </mat-card-title-group>
 	            </mat-card-header>
 				@if (data.description) {
@@ -39,21 +37,4 @@
 	        </div>
 	    </div>
 	</mat-card>
-
-	<mat-menu #menu="matMenu">
-		<button (click)="editTask()" mat-menu-item>
-			<mat-icon>
-				edit
-			</mat-icon>
-			Edit
-		</button>
-		<button (click)="deleteTask()" mat-menu-item class="delete-button">
-			<mat-icon>
-				delete_outline
-			</mat-icon>
-			<span>
-				Delete
-			</span>
-		</button>
-	</mat-menu>
 }

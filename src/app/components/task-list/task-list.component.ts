@@ -3,8 +3,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router } from '@angular/router';
+import { MoreOptionsComponent } from '@components/more-options/more-options.component';
 import { TaskItemComponent } from '@components/task-item/task-item.component';
 import { ListModel } from '@models/list.model';
+import { Options } from '@models/more-options.model';
 import { TaskModel } from '@models/task.model';
 import { ListHttpService } from '@services/list-http.service';
 import { ListService } from '@services/list.service';
@@ -20,7 +22,8 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 	MatIconModule,
 	TaskItemComponent,
 	MatMenuModule,
-	AngularSvgIconModule
+	AngularSvgIconModule,
+	MoreOptionsComponent
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
@@ -36,7 +39,20 @@ export class TaskListComponent {
 	@Input() isCompletedTasks = false;
 
 	listData?: ListModel;
-	tasksList = signal<TaskModel[]>([])
+	tasksList = signal<TaskModel[]>([]);
+
+	moreOptions: Options[] = [
+		{
+			title: "Edit",
+			icon: "edit",
+			callback: () => this.editList()
+		},
+		{
+			title: "Delete",
+			icon: "delete_outline",
+			callback: () => this.deleteList()
+		}
+	]
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (!changes['data'] || !changes['data'].currentValue || changes['data'].previousValue?._id === changes['data'].currentValue._id) {

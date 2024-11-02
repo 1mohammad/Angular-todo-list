@@ -1,25 +1,22 @@
-import { Component, EventEmitter, inject, Input, model, Output } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatMenuModule } from '@angular/material/menu';
 import { TaskModel } from '@models/task.model';
 import { DatePipe } from '@angular/common';
 import { TaskService } from '@services/task.service';
 import { ListModel } from '@models/list.model';
 import { TaskHttpService } from '@services/task-http.service';
+import { MoreOptionsComponent } from '@components/more-options/more-options.component';
+import { Options } from '@models/more-options.model';
 
 @Component({
 	selector: 'app-task-item',
 	standalone: true,
 	imports: [
 		MatCardModule,
-		MatButtonModule,
-		MatIconModule,
 		MatCheckboxModule,
-		MatMenuModule,
-		DatePipe
+		DatePipe,
+		MoreOptionsComponent
 	],
 	templateUrl: './task-item.component.html',
 	styleUrl: './task-item.component.scss'
@@ -33,6 +30,19 @@ export class TaskItemComponent {
 
 	@Output() itemDeleted = new EventEmitter<void>();
 	@Output() doneChanged = new EventEmitter<void>();
+
+	cardOptions: Options[] = [
+		{
+			title: "Edit",
+			icon: "edit",
+			callback: () => this.editTask()
+		},
+		{
+			title: "Delete",
+			icon: "delete_outline",
+			callback: () => this.deleteTask()
+		}
+	]
 
 	editTask(): void {
 		this.taskService.openAddEditDialog(this.listData?._id, this.data).subscribe({

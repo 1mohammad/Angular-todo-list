@@ -10,9 +10,7 @@
 					Add task
 				</button>
 				@if (!listData.isMain) {
-					<button mat-icon-button [matMenuTriggerFor]="menu">
-						<mat-icon>more_vert</mat-icon>
-					</button>
+					<app-more-options [options]="moreOptions" />
 				}
 			</div>
 		}
@@ -40,20 +38,4 @@
 			Add new task
 		</button>
 	</div>
-	<mat-menu #menu="matMenu">
-		<button (click)="editList()" mat-menu-item>
-			<mat-icon>
-				edit
-			</mat-icon>
-			Edit
-		</button>
-		<button (click)="deleteList()" mat-menu-item class="delete-button">
-			<mat-icon>
-				delete_outline
-			</mat-icon>
-			<span>
-				Delete
-			</span>
-		</button>
-	</mat-menu>
 }

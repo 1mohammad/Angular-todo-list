@@ -15,7 +15,7 @@
 			</div>
 		}
 	</div>
-	@if (showSlogan()) {
+	@if (showSlogan() && tasksList().length > 0) {
 		<app-slogan 
 			icon="assets/svg/today.svg" 
 			title="Welcome back!" 

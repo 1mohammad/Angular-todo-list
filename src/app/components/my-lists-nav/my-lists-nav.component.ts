@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -38,7 +38,7 @@ export class MyListsNavComponent implements OnInit {
 	readonly listStateService = inject(ListStateService);
 	readonly routesEnum = ROUTES;
 
-	myLists = this.listStateService.lists;
+	myLists = this.listStateService.myLists;
 
 	@Output() itemClicked = new EventEmitter<void>()
 
@@ -47,7 +47,7 @@ export class MyListsNavComponent implements OnInit {
 	}
 
 	getLists(): void {
-		this.httpService.getMyLists().subscribe({
+		this.httpService.getAllLists().subscribe({
 			next: (res: ListModel[]) => {
 				this.listStateService.setInitialList(res);
 			}

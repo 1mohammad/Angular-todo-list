@@ -1,13 +1,13 @@
-@if (data) {
+@if (dataToShow()) {
 	<mat-card
 	    class="w-full task-item mb-3"
 	    appearance="outlined"
-		[class.done]="checkbox.checked || data.done"
+		[class.done]="checkbox.checked || dataToShow().done"
 	>
 	    <div class="flex w-full">
 	        <mat-checkbox
 				(change)="toggleDone($event)"
-				[checked]="data.done"
+				[checked]="dataToShow().done"
 	            #checkbox
 	            class="ml-2 mt-2"
 	        ></mat-checkbox>
@@ -17,12 +17,12 @@
 	                    <mat-card-title
 							[class.line-through]="checkbox.checked"
 	                    >
-	                        {{ data.title }}
+	                        {{ dataToShow().title }}
 	                    </mat-card-title>
-						@if (data.date) {
+						@if (dataToShow().date) {
 							<mat-card-subtitle>
 								<small>
-									{{ data.date | date }}
+									{{ dataToShow().date | date }}
 								</small>
 							</mat-card-subtitle>
 						}
@@ -30,7 +30,7 @@
 	                </mat-card-title-group>
 	            </mat-card-header>
 				<mat-card-content class="!pl-0">
-					{{ data.description }}
+					{{ dataToShow().description }}
 				</mat-card-content>
 	        </div>
 	    </div>

@@ -1,11 +1,19 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { ListModel } from '@models/list.model';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ListStateService {
-	public lists = signal<ListModel[]>([]);
+	private lists = signal<ListModel[]>([]);
+
+	public myLists = computed(() => {
+		return this.lists().filter((item) => !item.isMain)
+	})
+
+	public mainList = computed(() => {
+		return this.lists().find(item => item.isMain);
+	})
 
 	public setInitialList(lists: ListModel[]): void {
 		this.lists.set(lists);

@@ -61,12 +61,11 @@ Feel free to contribute to this project by:
 
 This project is licensed under the MIT License.
 
-**Additional Notes**
+**Frameworks & Technologies Used**
 
-* **State Management:** Consider using a state management library like NgRx or Akita to manage complex application state.
-* **Testing:** Write unit and integration tests to ensure code quality and maintainability.
-* **Accessibility:** Make sure the application is accessible to users with disabilities by following accessibility guidelines.
-* **Security:** Implement security best practices to protect user data.
+* **Angular**
+* **Tailwind CSS**
+* **Angular Material**
 
 **Enjoy using this Angular To-Do app!**
 

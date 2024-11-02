@@ -27,4 +27,8 @@ export class TaskHttpService {
 	return this.http.delete<TaskModel>(`${environment.baseApi}tasks/${id}`)
   }
 
+  getCompletedTasks(): Observable<TaskModel[]> {
+	return this.http.get<TaskModel[]>(`${environment.baseApi}compeleted`);
+  }
+
 }

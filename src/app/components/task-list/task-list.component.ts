@@ -10,6 +10,7 @@ import { ListHttpService } from '@services/list-http.service';
 import { ListService } from '@services/list.service';
 import { TaskHttpService } from '@services/task-http.service';
 import { TaskService } from '@services/task.service';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
   selector: 'app-task-list',
@@ -18,7 +19,8 @@ import { TaskService } from '@services/task.service';
 	MatButtonModule,
 	MatIconModule,
 	TaskItemComponent,
-	MatMenuModule
+	MatMenuModule,
+	AngularSvgIconModule
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
@@ -31,6 +33,7 @@ export class TaskListComponent {
 	private readonly router = inject(Router);
 
 	@Input({required: true}) data: ListModel | undefined;
+	@Input() isCompletedTasks = false;
 
 	listData?: ListModel;
 	tasksList = signal<TaskModel[]>([])

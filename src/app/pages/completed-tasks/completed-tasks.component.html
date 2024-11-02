@@ -1,1 +1,9 @@
-<app-task-list [data]="listInfo" />
+<h2 class="!mb-12">
+	Completed Missions
+</h2>
+
+<div class="task-list-wrapper">
+	@for (item of tasksList(); track item._id) {
+		<app-task-item (itemDeleted)="deleteTask(item)" (doneChanged)="deleteTask(item)" [data]="item" />
+	}
+</div>

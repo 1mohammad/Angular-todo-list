@@ -11,53 +11,53 @@ import { ListModel } from '@models/list.model';
 import { TaskHttpService } from '@services/task-http.service';
 
 @Component({
-  selector: 'app-task-item',
-  standalone: true,
-  imports: [
-	MatCardModule,
-	MatButtonModule,
-	MatIconModule,
-	MatCheckboxModule,
-	MatMenuModule,
-	DatePipe
-  ],
-  templateUrl: './task-item.component.html',
-  styleUrl: './task-item.component.scss'
+	selector: 'app-task-item',
+	standalone: true,
+	imports: [
+		MatCardModule,
+		MatButtonModule,
+		MatIconModule,
+		MatCheckboxModule,
+		MatMenuModule,
+		DatePipe
+	],
+	templateUrl: './task-item.component.html',
+	styleUrl: './task-item.component.scss'
 })
 export class TaskItemComponent {
 	private readonly taskService = inject(TaskService);
 	private readonly taskHttpService = inject(TaskHttpService);
-	
-	@Input({required: true}) data!: TaskModel;
-	@Input({required: true}) listData?: ListModel;
 
-	@Output() itemDeleted = new EventEmitter<TaskModel>();
+	@Input({ required: true }) data!: TaskModel;
+	@Input() listData?: ListModel;
 
-	editTask():void {
-		if(!this.data || !this.listData) return;
-		this.taskService.openAddEditDialog(this.listData._id,this.data).subscribe({
+	@Output() itemDeleted = new EventEmitter<void>();
+	@Output() doneChanged = new EventEmitter<void>();
+
+	editTask(): void {
+		this.taskService.openAddEditDialog(this.listData?._id, this.data).subscribe({
 			next: (res) => {
-				if(!res) return;
+				if (!res) return;
 				this.data = res;
 			}
 		})
 	}
 
-	deleteTask():void {
-		if(!this.data || !this.data._id) return;
+	deleteTask(): void {
 		this.taskHttpService.deleteTask(this.data._id).subscribe({
-			next: (res) => {
-				this.itemDeleted.emit(res);
+			next: () => {
+				this.itemDeleted.emit();
 			}
 		})
 	}
 
-	toggleDone(checkbox:MatCheckboxChange):void {
-		if(!this.data || !this.data._id) return;
+	toggleDone(checkbox: MatCheckboxChange): void {
 		this.taskHttpService.updateTask(
-			this.data._id,{done: checkbox.checked}).subscribe({
+			this.data._id, { done: checkbox.checked })
+			.subscribe({
 				next: () => {
 					this.data.done = checkbox.checked;
+					this.doneChanged.emit()
 				}
 			})
 	}

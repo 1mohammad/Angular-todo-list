@@ -25,7 +25,7 @@ export class TaskService {
 						return this.httpService.updateTask(task._id, result)
 							// TODO: DELETE this part and just return result after backend issue is fixed. Currently, the result is wrong and returning old data.
 							.pipe(
-								map(item => ({ ...item, title: result.title }))
+								map(item => ({ ...item, title: result.title, description: result.description, date: result.date }))
 							);
 					} else {
 						let newTask: TaskModel;

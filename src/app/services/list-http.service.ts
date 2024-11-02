@@ -15,7 +15,7 @@ export class ListHttpService {
 	return this.http.get<ListModel>(`${environment.baseApi}mainList`);
   }
 
-  getAllLists(): Observable<ListModel[]> {
+  getMyLists(): Observable<ListModel[]> {
 	return this.http.get<ListModel[]>(`${environment.baseApi}lists`)
 	.pipe(
 		map(res => (res.filter(item => !item.isMain)))

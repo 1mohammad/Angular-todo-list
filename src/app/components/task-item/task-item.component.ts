@@ -29,7 +29,7 @@ export class TaskItemComponent {
 	@Input() listData?: ListModel;
 
 	@Output() itemDeleted = new EventEmitter<void>();
-	@Output() doneChanged = new EventEmitter<void>();
+	@Output() doneChanged = new EventEmitter<TaskModel>();
 
 	cardOptions: Options[] = [
 		{
@@ -67,7 +67,7 @@ export class TaskItemComponent {
 			.subscribe({
 				next: () => {
 					this.data.done = checkbox.checked;
-					this.doneChanged.emit()
+					this.doneChanged.emit(this.data)
 				}
 			})
 	}

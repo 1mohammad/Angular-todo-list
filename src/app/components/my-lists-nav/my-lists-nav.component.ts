@@ -40,11 +40,11 @@ export class MyListsNavComponent implements OnInit {
 	@Output() itemClicked = new EventEmitter<void>()
 
 	ngOnInit(): void {
-		this.getMyLists();
+		this.getLists();
 	}
 
-	getMyLists():void {
-		this.httpService.getAllLists().subscribe({
+	getLists():void {
+		this.httpService.getMyLists().subscribe({
 			next: (res: ListModel[]) => {
 				this.myLists.set(res);
 			}

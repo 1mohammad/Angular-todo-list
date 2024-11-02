@@ -1,4 +1,4 @@
-import { Component, inject, input, Input, signal, SimpleChanges } from '@angular/core';
+import { Component, computed, inject, input, Input, signal, SimpleChanges } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -16,19 +16,19 @@ import { TaskService } from '@services/task.service';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
-  selector: 'app-task-list',
-  standalone: true,
-  imports: [
-	MatButtonModule,
-	MatIconModule,
-	TaskItemComponent,
-	MatMenuModule,
-	AngularSvgIconModule,
-	MoreOptionsComponent,
-	SloganComponent
-  ],
-  templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.scss'
+	selector: 'app-task-list',
+	standalone: true,
+	imports: [
+		MatButtonModule,
+		MatIconModule,
+		TaskItemComponent,
+		MatMenuModule,
+		AngularSvgIconModule,
+		MoreOptionsComponent,
+		SloganComponent
+	],
+	templateUrl: './task-list.component.html',
+	styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent {
 	private readonly taskHttpService = inject(TaskHttpService);
@@ -37,12 +37,18 @@ export class TaskListComponent {
 	private readonly taskService = inject(TaskService);
 	private readonly router = inject(Router);
 
-	@Input({required: true}) data: ListModel | undefined;
+	@Input({ required: true }) data: ListModel | undefined;
 	isCompletedTasks = input(false);
 	showSlogan = input(false);
 
 	listData?: ListModel;
 	tasksList = signal<TaskModel[]>([]);
+
+	sortedTasks = computed(() => {
+		return this.tasksList().sort((a, b) => {
+			return (a.done === b.done) ? 0 : a.done ? 1 : -1;
+		});
+	});
 
 	moreOptions: Options[] = [
 		{
@@ -59,24 +65,24 @@ export class TaskListComponent {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (!changes['data'] || !changes['data'].currentValue || changes['data'].previousValue?._id === changes['data'].currentValue._id) {
-		  return;
+			return;
 		}
-	  
+
 		const newData = changes['data'].currentValue;
 		this.listData = newData;
 		const newId = newData?._id;
-	  
-		if (newId) {
-		  this.taskHttpService.getTasksById(newId).subscribe({
-			next: (res) => {
-			  this.tasksList.set(res);
-			}
-		  });
-		}
-	  }
 
-	deleteList():void {
-		if(!this.listData) return;
+		if (newId) {
+			this.taskHttpService.getTasksById(newId).subscribe({
+				next: (res) => {
+					this.tasksList.set(res);
+				}
+			});
+		}
+	}
+
+	deleteList(): void {
+		if (!this.listData) return;
 		this.listHttpService.deleteList(this.listData?._id).subscribe({
 			next: () => {
 				this.router.navigate(['/']);
@@ -84,27 +90,40 @@ export class TaskListComponent {
 		})
 	}
 
-	editList():void {
+	editList(): void {
 		if (!this.listData) return;
 		this.listService.openAddEditDialog(this.listData).subscribe({
 			next: (result) => {
+				if (!result) return;
 				this.listData = result;
 			}
 		})
 	}
 
-	newTask():void {
+	newTask(): void {
 		if (!this.listData) return;
 		this.taskService.openAddEditDialog(this.listData._id).subscribe({
 			next: (res) => {
-				if(!res) return;
+				if (!res) return;
 				this.tasksList.update(list => ([...list, res]))
 			}
 		})
 	}
 
-	deleteTask(task: TaskModel):void {
+	deleteTask(task: TaskModel): void {
 		this.tasksList.update(data => data.filter(item => item._id !== task._id));
 	}
-	
+
+	changeTaskDone(task: TaskModel): void {
+		this.tasksList.update(tasks => {
+		  const updatedTasks = tasks.map(t => {
+			if (t._id === task._id) {
+			  return { ...t, done: task.done };
+			}
+			return t;
+		  });
+		  return updatedTasks;
+		});
+	}
+
 }

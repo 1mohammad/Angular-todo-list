@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, of, switchMap } from 'rxjs';
+import { map, Observable, of, switchMap } from 'rxjs';
 import { TaskHttpService } from './task-http.service';
 import { TaskModel } from '@models/task.model';
 import { AddEditTaskDialogComponent } from '@components/add-edit-task-dialog/add-edit-task-dialog.component';
@@ -14,6 +14,7 @@ export class TaskService {
 
 	openAddEditTaskDialog(listId?:string,task?: TaskModel): Observable<TaskModel | undefined> {
 		const dialogRef = this.dialog.open(AddEditTaskDialogComponent, {
+			width: '40vw',
 			data: {title: task?.title, description: task?.description, date: task?.date },
 		});
 
@@ -21,7 +22,11 @@ export class TaskService {
 			switchMap(result => {
 				if (result !== undefined && !result.error) {
 					if (task && task._id) {
-						return this.httpService.updateTask(task._id, result);
+						return this.httpService.updateTask(task._id, result)
+						// TODO: DELETE this part and just return result after backend issue is fixed. Currently, the result is wrong and returning old data.
+						.pipe(
+							map(item => ({...item,title:result.title}))
+						);
 					} else {
 						let newTask: TaskModel;
 						if (listId) {

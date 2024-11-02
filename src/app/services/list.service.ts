@@ -14,6 +14,7 @@ export class ListService {
 
 	openAddEditListDialog(list?: ListModel): Observable<ListModel | undefined> {
 		const dialogRef = this.dialog.open(AddEditListDialogComponent, {
+			width: '40vw',
 			data: { title: list?.title, date: list?.date },
 		});
 

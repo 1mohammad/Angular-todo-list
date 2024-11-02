@@ -29,8 +29,10 @@
 				<app-header (toggleSidenav)="sidenav.toggle()" />
 			}
 		}
-		<main class="pt-10 pb-3 container">
-			<ng-content></ng-content>
-		</main>
+		<div class="sm:h-[calc(100vh_-_81px)] sm:overflow-y-auto">
+			<main class="pt-10 pb-3 container">
+				<ng-content></ng-content>
+			</main>
+		</div>
 	</mat-sidenav-content>
 </mat-sidenav-container>

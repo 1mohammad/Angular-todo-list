@@ -5,13 +5,13 @@ import { ListModel } from '@models/list.model';
 import { ListHttpService } from '@services/list-http.service';
 
 @Component({
-  selector: 'app-my-list',
-  standalone: true,
-  imports: [
-	TaskListComponent
-  ],
-  templateUrl: './my-list.component.html',
-  styleUrl: './my-list.component.scss'
+	selector: 'app-my-list',
+	standalone: true,
+	imports: [
+		TaskListComponent
+	],
+	templateUrl: './my-list.component.html',
+	styleUrl: './my-list.component.scss'
 })
 export class MyListComponent {
 	private readonly destroyRef = inject(DestroyRef);
@@ -19,15 +19,15 @@ export class MyListComponent {
 	listData = signal<ListModel | undefined>(undefined);
 	id = input<string>('');
 
-	constructor () {
+	constructor() {
 		effect(() => {
 			this.httpService.getListById(this.id())
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe({
-				next: (result) => {
-					this.listData.set(result);
-				}
-			})
+				.pipe(takeUntilDestroyed(this.destroyRef))
+				.subscribe({
+					next: (result) => {
+						this.listData.set(result);
+					}
+				})
 		})
 	}
 }

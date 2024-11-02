@@ -6,6 +6,6 @@ export interface ListModel {
 }
 
 export interface ListDialogData {
-	title:string,
-	date:Date
+	title: string,
+	date: Date
 }

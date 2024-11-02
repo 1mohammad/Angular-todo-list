@@ -5,15 +5,15 @@ import { MatMenuModule } from '@angular/material/menu';
 import { Options } from '@models/more-options.model';
 
 @Component({
-  selector: 'app-more-options',
-  standalone: true,
-  imports: [
-	MatMenuModule,
-	MatButtonModule,
-	MatIconModule
-  ],
-  templateUrl: './more-options.component.html',
-  styleUrl: './more-options.component.scss'
+	selector: 'app-more-options',
+	standalone: true,
+	imports: [
+		MatMenuModule,
+		MatButtonModule,
+		MatIconModule
+	],
+	templateUrl: './more-options.component.html',
+	styleUrl: './more-options.component.scss'
 })
 export class MoreOptionsComponent {
 	options = input<Options[]>();

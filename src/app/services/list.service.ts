@@ -23,10 +23,10 @@ export class ListService {
 				if (result !== undefined && !result.error) {
 					if (list) {
 						return this.httpService.updateList(list._id, result)
-						// TODO: DELETE this part and just return result after backend issue is fixed. Currently, the result is wrong and returning old data.
-						.pipe(
-							map(item => ({...item,title:result.title}))
-						);
+							// TODO: DELETE this part and just return result after backend issue is fixed. Currently, the result is wrong and returning old data.
+							.pipe(
+								map(item => ({ ...item, title: result.title }))
+							);
 					} else {
 						return this.httpService.addList(result);
 					}

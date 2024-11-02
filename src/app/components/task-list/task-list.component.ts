@@ -13,8 +13,8 @@ import { ListHttpService } from '@services/list-http.service';
 import { ListService } from '@services/list.service';
 import { TaskHttpService } from '@services/task-http.service';
 import { TaskService } from '@services/task.service';
+import { ListStateService } from '@states/list-state.service';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ListStateService } from '../../states/list-state.service';
 
 @Component({
 	selector: 'app-task-list',
@@ -120,13 +120,13 @@ export class TaskListComponent {
 
 	changeTaskDone(task: TaskModel): void {
 		this.tasksList.update(tasks => {
-		  const updatedTasks = tasks.map(t => {
-			if (t._id === task._id) {
-			  return { ...t, done: task.done };
-			}
-			return t;
-		  });
-		  return updatedTasks;
+			const updatedTasks = tasks.map(t => {
+				if (t._id === task._id) {
+					return { ...t, done: task.done };
+				}
+				return t;
+			});
+			return updatedTasks;
 		});
 	}
 

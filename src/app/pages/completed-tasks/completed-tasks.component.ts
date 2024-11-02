@@ -6,19 +6,19 @@ import { TaskHttpService } from '@services/task-http.service';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
 @Component({
-  selector: 'app-completed-tasks',
-  standalone: true,
-  imports: [
-	TaskItemComponent,
-	AngularSvgIconModule,
-	SloganComponent
-  ],
-  templateUrl: './completed-tasks.component.html',
-  styleUrl: './completed-tasks.component.scss'
+	selector: 'app-completed-tasks',
+	standalone: true,
+	imports: [
+		TaskItemComponent,
+		AngularSvgIconModule,
+		SloganComponent
+	],
+	templateUrl: './completed-tasks.component.html',
+	styleUrl: './completed-tasks.component.scss'
 })
 export class CompletedTasksComponent {
 	tasksList = signal<TaskModel[]>([])
-	
+
 	constructor() {
 		inject(TaskHttpService).getCompletedTasks().subscribe(
 			{
@@ -28,8 +28,8 @@ export class CompletedTasksComponent {
 			}
 		)
 	}
-	
-	deleteTask(task: TaskModel):void {
+
+	deleteTask(task: TaskModel): void {
 		this.tasksList.update(data => data.filter(item => item._id !== task._id));
 	}
 }

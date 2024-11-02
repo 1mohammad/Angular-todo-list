@@ -12,23 +12,23 @@ import { ROUTES } from '@enums/routes.enum';
 import { ListModel } from '@models/list.model';
 import { ListHttpService } from '@services/list-http.service';
 import { ListService } from '@services/list.service';
-import { ListStateService } from '../../states/list-state.service';
+import { ListStateService } from '@states/list-state.service';
 
 @Component({
-  selector: 'app-my-lists-nav',
-  standalone: true,
-  imports: [
-	MatDividerModule,
-	MatListModule,
-	MatIconModule,
-	MatFormFieldModule,
-	MatInputModule,
-	FormsModule,
-	MatMenuModule,
-	RouterModule
-  ],
-  templateUrl: './my-lists-nav.component.html',
-  styleUrl: './my-lists-nav.component.scss'
+	selector: 'app-my-lists-nav',
+	standalone: true,
+	imports: [
+		MatDividerModule,
+		MatListModule,
+		MatIconModule,
+		MatFormFieldModule,
+		MatInputModule,
+		FormsModule,
+		MatMenuModule,
+		RouterModule
+	],
+	templateUrl: './my-lists-nav.component.html',
+	styleUrl: './my-lists-nav.component.scss'
 })
 export class MyListsNavComponent implements OnInit {
 	readonly dialog = inject(MatDialog);
@@ -46,23 +46,23 @@ export class MyListsNavComponent implements OnInit {
 		this.getLists();
 	}
 
-	getLists():void {
+	getLists(): void {
 		this.httpService.getMyLists().subscribe({
 			next: (res: ListModel[]) => {
 				this.listStateService.setInitialList(res);
 			}
 		})
 	}
-	
+
 	addList(): void {
 		this.listService.openAddEditListDialog().subscribe({
 			next: (res) => {
 				if (res) {
 					this.listStateService.addList(res);
-					this.router.navigate(['/'+ROUTES.MY_LIST,res._id]);
+					this.router.navigate(['/' + ROUTES.MY_LIST, res._id]);
 				}
 			}
 		})
 	}
-	
+
 }

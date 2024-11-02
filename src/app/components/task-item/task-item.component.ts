@@ -8,6 +8,7 @@ import { ListModel } from '@models/list.model';
 import { TaskHttpService } from '@services/task-http.service';
 import { MoreOptionsComponent } from '@components/more-options/more-options.component';
 import { Options } from '@models/more-options.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
 	selector: 'app-task-item',
@@ -24,6 +25,7 @@ import { Options } from '@models/more-options.model';
 export class TaskItemComponent {
 	private readonly taskService = inject(TaskService);
 	private readonly taskHttpService = inject(TaskHttpService);
+	private readonly snackBar = inject(MatSnackBar);
 
 	@Input({ required: true }) data!: TaskModel;
 	@Input() listData?: ListModel;
@@ -57,6 +59,11 @@ export class TaskItemComponent {
 		this.taskHttpService.deleteTask(this.data._id).subscribe({
 			next: () => {
 				this.itemDeleted.emit();
+				this.snackBar.open(`"${this.data.title}" deleted`, 'Close', {
+					duration: 3000,
+					horizontalPosition: 'center',
+					verticalPosition: 'bottom',
+				})
 			}
 		})
 	}
